@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace TalentNode.Domain.Models
 {
-    public class UserDetails
+    public class UserLoginDetails
     {
-        public string UserName { get; set; } = null;
-
-        public string Password { get; set; }
-
-
-
+        public string UserName { get; set; }
+        public string role { get; set; }
     }
 }

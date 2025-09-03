@@ -22,4 +22,8 @@
     <ProjectReference Include="..\TalentNode.Application\TalentNode.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

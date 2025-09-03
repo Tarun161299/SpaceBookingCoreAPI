@@ -12,6 +12,7 @@ namespace TalentNode.Infrastructure
         {
             services.AddDbContext<TalentNodeDbContext>(options => { options.UseSqlServer("Server =DESKTOP-M4HOJNG;Database=Shopping;Trusted_Connection=true; Encrypt=true; TrustServerCertificate=true;"); });
 
+            services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
             return services;
         }

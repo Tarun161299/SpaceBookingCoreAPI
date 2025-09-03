@@ -17,9 +17,18 @@ namespace TalentNode.Infrastructure.Repositories
     {
         public async Task<string> AuthenticateUser (UserDetails User)
         {
-            if(User.UserName=="Tarun123" && User.Password == "Test@123")
+            var userDetail = (from d in dbContext.UserDetail
+                              join rm in dbContext.UserRoleMapping on d.Username equals rm.UserName
+                              join r in dbContext.RoleMaster on rm.RoleId equals r.RoleId
+                              where rm.UserName == User.UserName && d.Password == User.Password
+                              select new UserLoginDetails
+                              {
+                                  UserName = rm.UserName,
+                                  role = r.RoleName
+                              }).ToList();
+            if (userDetail.Count>0)
             {
-                var token = this.GenerateJwtToken();
+                var token = this.GenerateJwtToken(userDetail[0].UserName, userDetail[0].role);
                 return token;
             }
             else
@@ -29,7 +38,7 @@ namespace TalentNode.Infrastructure.Repositories
 
         }
 
-        private string GenerateJwtToken()
+        private string GenerateJwtToken(string UserName,string role)
 
         {
 
@@ -41,7 +50,7 @@ namespace TalentNode.Infrastructure.Repositories
 
             {
 
-                Subject = new ClaimsIdentity(new[] { new Claim("id", "testuser"), new Claim(ClaimTypes.Role, "Admin") }),
+                Subject = new ClaimsIdentity(new[] { new Claim("id", UserName), new Claim(ClaimTypes.Role, role) }),
 
                 Issuer = "https://localhost:7054",
 
