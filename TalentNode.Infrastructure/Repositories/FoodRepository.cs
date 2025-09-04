@@ -42,6 +42,90 @@ namespace TalentNode.Infrastructure.Repositories
 
         }
 
+        public async Task<int> DeleteFoodData(int foodId)
+        {
+            using var transaction = await dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                // 1. Find the FoodMenu by Id
+                var food = await dbContext.FoodMenu.FindAsync(foodId);
+                if (food == null)
+                    return 0; // Not found
+
+                // 2. Find the linked Document
+                var document = await dbContext.Documents.FindAsync(food.DocId);
+
+                // 3. Remove FoodMenu
+                dbContext.FoodMenu.Remove(food);
+
+                // 4. Remove Document if exists
+                if (document != null)
+                    dbContext.Documents.Remove(document);
+
+                // 5. Save changes
+                await dbContext.SaveChangesAsync();
+
+                // 6. Commit transaction
+                await transaction.CommitAsync();
+
+                return 1; // success
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                // log exception
+                return 0;
+            }
+        }
+
+        public async Task<int> UpdateFoodData(FoodData updateFood)
+        {
+            using var transaction = await dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                // 1. Find the FoodMenu by Id
+                var food = await dbContext.FoodMenu.FindAsync(updateFood.Id);
+                if (food == null)
+                    return 0; // Not found
+
+                // 2. Update Food fields
+                food.FoodDescription = updateFood.FoodDescription;
+                food.Quantity = updateFood.Quantity;
+                food.Rate = updateFood.Rate;
+                food.Category = updateFood.Category;
+                food.UpdatedOn = DateTime.Now;
+
+                // 3. If new image uploaded → update Document
+                if (!string.IsNullOrEmpty(updateFood.FileBase64String) && !string.IsNullOrEmpty(updateFood.FileType))
+                {
+                    // Validate jpg/jpeg
+                   
+
+                    var document = await dbContext.Documents.FindAsync(food.DocId);
+                    if (document != null)
+                    {
+                        document.FileBase64String = updateFood.FileBase64String;
+                        document.FileType = updateFood.FileType;
+                        document.UpdatedOn = DateTime.Now;
+                    }
+                }
+
+                // 4. Save changes
+                await dbContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return 1; // success
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                // log exception here
+                return 0;
+            }
+        }
+
         public async Task<int> saveFoodData(SaveFoodData savefood)
         {
             using var transaction = await dbContext.Database.BeginTransactionAsync();

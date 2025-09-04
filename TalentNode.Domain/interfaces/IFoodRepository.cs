@@ -11,5 +11,9 @@ namespace TalentNode.Domain.interfaces
     {
         public Task<List<FoodData>> GetAllFoodItems();
         public Task<int> saveFoodData(SaveFoodData savefood);
+
+        public Task<int> UpdateFoodData(FoodData updateFood);
+
+        public Task<int> DeleteFoodData(int foodId);
     }
 }

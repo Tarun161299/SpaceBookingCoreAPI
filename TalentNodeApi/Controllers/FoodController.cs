@@ -2,6 +2,8 @@
 using TalentNode.Application.command;
 using TalentNode.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,13 +20,30 @@ namespace TalentNodeApi.Controllers
             var result = await sender.Send(new GetAllFoodDataCommand());
             return result;
         }
-
+        [Authorize]
         [HttpPost("SaveData")]
         public async Task<int> SaveData(SaveFoodData saveFoodData)
         {
             var result = await sender.Send(new SaveFoodItemCommand(saveFoodData));
             return result;
         }
+        [Authorize]
+        [HttpPost("updateData")]
+       
+        public async Task<int> UpdateData(FoodData foodData)
+        {
+            var result = await sender.Send(new EditfoodmenuitemCommand(foodData));
+            return result;
+        }
+        [Authorize]
+        [HttpGet("Delete")]
+
+        public async Task<int> UpdateData(int id)
+        {
+            var result = await sender.Send(new DeleteFoodItemCommand(id));
+            return result;
+        }
+
 
         // GET api/<FoodController>/5
         [HttpGet("{id}")]
