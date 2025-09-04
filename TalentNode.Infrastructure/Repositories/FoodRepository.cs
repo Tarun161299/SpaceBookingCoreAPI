@@ -5,9 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Azure.Core;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic.FileIO;
+using TalentNode.Domain.Entities;
 using TalentNode.Domain.interfaces;
 using TalentNode.Domain.Models;
 using TalentNode.Infrastructure.Data;
@@ -39,7 +41,54 @@ namespace TalentNode.Infrastructure.Repositories
             return FoodMenu;
 
         }
-        
+
+        public async Task<int> saveFoodData(SaveFoodData savefood)
+        {
+            using var transaction = await dbContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                // 1. Save Document first
+                var doc = new Document
+                {
+                    FileBase64String = savefood.FileBase64String,
+                    FileType = savefood.FileType,
+                    CreatedOn = DateTime.Now,
+                    UpdatedOn = DateTime.Now
+                };
+
+                dbContext.Documents.Add(doc);
+                await dbContext.SaveChangesAsync(); // ✅ This will generate DocId
+                int newDocid = doc.Id;              // ✅ Now populated
+
+                // 2. Save Food with new DocId
+                var food = new FoodMenu
+                {
+                    FoodDescription = savefood.FoodDescription,
+                    Quantity = savefood.Quantity,
+                    Rate = savefood.Rate,
+                    Category = savefood.Category,
+                    CreatedOn = DateTime.Now,
+                    UpdatedOn = DateTime.Now,
+                    DocId = newDocid   // FK reference
+                };
+
+                dbContext.FoodMenu.Add(food);
+                await dbContext.SaveChangesAsync();
+
+                // 3. Commit transaction
+                await transaction.CommitAsync();
+
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                // Rollback on error
+                await transaction.RollbackAsync();
+                return 0;
+            }
+        }
+
     }
 
 }

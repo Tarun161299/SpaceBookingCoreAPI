@@ -19,6 +19,13 @@ namespace TalentNodeApi.Controllers
             return result;
         }
 
+        [HttpPost("SaveData")]
+        public async Task<int> SaveData(SaveFoodData saveFoodData)
+        {
+            var result = await sender.Send(new SaveFoodItemCommand(saveFoodData));
+            return result;
+        }
+
         // GET api/<FoodController>/5
         [HttpGet("{id}")]
         public string Get(int id)

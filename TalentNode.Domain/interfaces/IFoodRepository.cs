@@ -10,5 +10,6 @@ namespace TalentNode.Domain.interfaces
     public interface IFoodRepository
     {
         public Task<List<FoodData>> GetAllFoodItems();
+        public Task<int> saveFoodData(SaveFoodData savefood);
     }
 }
