@@ -52,9 +52,9 @@ namespace TalentNode.Infrastructure.Repositories
 
                 Subject = new ClaimsIdentity(new[] { new Claim("id", UserName), new Claim(ClaimTypes.Role, role) }),
 
-                Issuer = "https://localhost:7054",
+                Issuer = "https://urbancaferes.com.au",
 
-                Audience = "https://localhost:7054",
+                Audience = "https://urbancaferes.com.au",
                
                 Expires = DateTime.UtcNow.AddDays(7),
 

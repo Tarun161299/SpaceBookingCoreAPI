@@ -64,8 +64,8 @@ try
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = "https://localhost:7054",
-                ValidAudience = "https://localhost:7054",
+                ValidIssuer = "https://urbancaferes.com.au",
+                ValidAudience = "https://urbancaferes.com.au",
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("xxxxxxxsssssssdddddddaaaaaaaaaaaaaa"))
             };
         });
