@@ -33,6 +33,7 @@ namespace TalentNode.Infrastructure.Repositories
                                 Quantity = fm.Quantity,
                                 Rate = fm.Rate,
                                 Category = cm.CategoryName,
+                                CategoryId=cm.CategoryId,
                                 CreatedOn = fm.CreatedOn,
                                 UpdatedOn = fm.UpdatedOn,
                                 FileBase64String = dc.FileBase64String,
@@ -94,7 +95,7 @@ namespace TalentNode.Infrastructure.Repositories
                 food.FoodDescription = updateFood.FoodDescription;
                 food.Quantity = updateFood.Quantity;
                 food.Rate = updateFood.Rate;
-                food.Category = updateFood.Category;
+                food.Category = updateFood.CategoryId;
                 food.UpdatedOn = DateTime.Now;
 
                 // 3. If new image uploaded → update Document

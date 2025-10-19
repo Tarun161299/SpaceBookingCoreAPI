@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TalentNode.Domain.interfaces;
 using TalentNode.Infrastructure.Data;
@@ -8,9 +9,11 @@ namespace TalentNode.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastuctureDI(this IServiceCollection services)
+        public static IServiceCollection AddInfrastuctureDI(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<TalentNodeDbContext>(options => { options.UseSqlServer("Server =DESKTOP-M4HOJNG;Database=Shopping;Trusted_Connection=true; Encrypt=true; TrustServerCertificate=true;"); });
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<TalentNodeDbContext>(options => { options.UseSqlServer(connectionString); });
 
             services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();

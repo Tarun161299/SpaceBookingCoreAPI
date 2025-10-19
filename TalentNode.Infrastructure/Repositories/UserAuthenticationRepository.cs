@@ -55,7 +55,7 @@ namespace TalentNode.Infrastructure.Repositories
                 Issuer = "https://localhost:7054",
 
                 Audience = "https://localhost:7054",
-
+               
                 Expires = DateTime.UtcNow.AddDays(7),
 
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

@@ -13,6 +13,8 @@ namespace TalentNode.Domain.Models
         public int Quantity { get; set; }
         public string Rate { get; set; }
         public string Category { get; set; }
+
+        public string CategoryId { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
 

@@ -5,9 +5,9 @@ namespace TalentNodeApi
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddTalentNodeDI(this IServiceCollection services)
+        public static IServiceCollection AddTalentNodeDI(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddApplicationDI().AddInfrastuctureDI();
+            services.AddApplicationDI().AddInfrastuctureDI(configuration);
             return services;
         }
     }
