@@ -17,6 +17,7 @@ namespace TalentNode.Infrastructure
 
             services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
+            services.AddScoped<IBooking, BookingRepository>();
             return services;
         }
     }
