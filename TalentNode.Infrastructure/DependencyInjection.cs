@@ -10,10 +10,11 @@ namespace TalentNode.Infrastructure
     {
         public static IServiceCollection AddInfrastuctureDI(this IServiceCollection services)
         {
-            services.AddDbContext<TalentNodeDbContext>(options => { options.UseSqlServer("Server =DESKTOP-M4HOJNG;Database=Shopping;Trusted_Connection=true; Encrypt=true; TrustServerCertificate=true;"); });
+            services.AddDbContext<TalentNodeDbContext>(options => { options.UseSqlServer("Server=148.113.47.114,49884;Database=urbanCafe;User Id=urbanCafe;Password=Mahadevshivv(12);Encrypt=true;TrustServerCertificate=true;"); });
 
             services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
+            services.AddScoped<IBooking, BookingRepository>();
             return services;
         }
     }

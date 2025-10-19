@@ -13,6 +13,7 @@ namespace TalentNode.Infrastructure.Data
         public DbSet<UserDetail> UserDetail { get; set; }
         public DbSet<RoleMaster> RoleMaster { get; set; }
         public DbSet<UserRoleMapping> UserRoleMapping { get; set; }
+        public DbSet<Booking> Booking { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Composite keys
